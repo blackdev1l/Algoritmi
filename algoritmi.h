@@ -1,16 +1,12 @@
 /*---------------------------------------------------------
- *                   LIBRERIA ALGORITMI
+ *                   LIBRERIA ALGORITMI                   *
  *-------------------------------------------------------*/
 
 /*------------------------TO DO LIST-----------------------
- * fixare fibonacci1 (non funziona eppure il codice è giusto)
  * fixare moltiplicazione
- * extended_euclid
  * Funzione modulare esponenziale
- * merge-sort
  * Hash-table
  * quick-sort
- * insertion-sort
  * ------------------------------------------------------*/
 
 #ifndef IOSTREAM_H
@@ -24,7 +20,7 @@ int fibonacci2(unsigned int n);
 int moltiplicazione(int x,int y);
 struct Dresult; // divisione(int x,unsigned int y);
 struct euclid; // euclid(unsigned int a, unsigned int b);
-
+struct EE; // Extebded_Euclid(int a, int b);
 void insertion_sort( int A[], int n);
 void merge_sort(int A[], int n);
 void merge(int a1[], int n1, int a2[], int n2);
@@ -35,8 +31,8 @@ void merge(int a1[], int n1, int a2[], int n2);
 
 
 /*---------------------------------------------------------/
- * fibonacci esponenziale
- * Costo O(n^n)
+ * fibonacci esponenziale                                  *
+ * Costo O(n^n)                                            *
  * ------------------------------------------------------*/
 
 int fibonacci1( int n)
@@ -49,11 +45,11 @@ int fibonacci1( int n)
 }
 
 
-/*---------------------------------------------------------
- * Fibonacci polinomiale
- * Costo O(n^2)
- * costo quadratico per via della bit complexity
- * ------------------------------------------------------*/
+/*----------------------------------------------------------
+ * Fibonacci polinomiale                                   *
+ * Costo O(n^2)                                            *
+ * costo quadratico per via della bit complexity           *
+ * -------------------------------------------------------*/
 
 int fibonacci2( int n)
 {
@@ -71,10 +67,10 @@ int fibonacci2( int n)
 }
 
 
-/*---------------------------------------------------------
- * Moltiplicazione1
- * Costo O(n^2)
- * Input: 2 numeri interi x e y dove y > 0a
+/*----------------------------------------------------------
+ * Moltiplicazione1a                                       *
+ * Costo O(n^2)                                            *
+ * Input: 2 numeri interi x e y dove y > 0a                *
  * Output: il loro prodotto
  * ------------------------------------------------------*/
 
@@ -126,12 +122,12 @@ int moltiplicazione( int x, int y)
 };
 
 
-/*---------------------------------------------------------
- * Euclid
- * Costo O(n^3)
- * input: 2 interi a e b con a >= b >= 0 
- * Output:MCD(a,b)
- * ------------------------------------------------------*/
+/*----------------------------------------------------------
+ * Euclid                                                  *
+ * Costo O(n^3)                                            *
+ * input: 2 interi a e b con a >= b >= 0                   *
+ * Output:MCD(a,b)                                         *
+ * -------------------------------------------------------*/
 
 struct euclid
 {
@@ -151,15 +147,32 @@ struct euclid
 };
 
 
-/*---------------------------------------------------------
- * Extended Euclid
- * Costo: O(n^3)
- * input: 2 interi 
- * ------------------------------------------------------*/
+/*----------------------------------------------------------
+ * Extended Euclid                                         *
+ * Costo: O(n^3)                                           *
+ * Input: 2 interi a e b con a >= b >= 0                   *
+ * Output: 3 interi x,y,d tali che d = MCD(a,b) e ax+by=d  *
+ * -------------------------------------------------------*/
 
+struct EE {
+  int x;
+  int y;
+  int d;
 
-
-
+  EE Extended_Euclid(int a, int b) {
+    EE result,temp;
+    if(b == 0) {
+      result.x = 1;
+      result.y = 0;
+      result.d = a;
+    }
+    result = Extended_Euclid(b,a%b);
+    result = temp;
+    result.x = temp.y;
+    result.y = (temp.x - ((a/b)*y));
+    return result;
+  }
+};
 /*---------------------------------------------------------
  * Insertion Sort
  * Costo: O(n^2)
@@ -167,21 +180,18 @@ struct euclid
  * Output: Array A ordinato
  * ------------------------------------------------------*/
 
-void insertion_sort( int A[], int n)
-{
+void insertion_sort( int A[], int n) {
   int key,j;
   for (int i = 1; i < n; i++)
-    {
+  {
     key = A[i];
     j = i-1;
     while (j >= 0 && A[j] > key)
-      {
+    {
       A[j+1] = A[j];
       j--;
     }
     A[j+1] = key;
-
-
   }
 }
 
@@ -211,9 +221,8 @@ void merge(int a1[], int n1, int a2[], int n2)
 
   
   for(i1 = 0, i2 = 0, l = 0; 
-  i1 < n1 && i2 < n2 ; 
-  l++) 
-  {
+      i1 < n1 && i2 < n2 ; 
+      l++) {
     if (a1[i1] < a2[i2])
       b[l] = a1[i1++] ;
     else
@@ -228,3 +237,4 @@ void merge(int a1[], int n1, int a2[], int n2)
 
   delete[] b ;
 }
+
