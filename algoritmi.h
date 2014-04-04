@@ -10,6 +10,7 @@
  * merge-sort
  * Hash-table
  * quick-sort
+ * insertion-sort
  * ------------------------------------------------------*/
 
 #ifndef IOSTREAM_H
@@ -23,6 +24,10 @@ int fibonacci2(unsigned int n);
 int moltiplicazione(int x,int y);
 struct Dresult; // divisione(int x,unsigned int y);
 struct euclid; // euclid(unsigned int a, unsigned int b);
+
+void insertion_sort( int A[], int n);
+void merge_sort(int A[], int n);
+void merge(int a1[], int n1, int a2[], int n2);
 //---------------------------------------------------------
 
 
@@ -136,10 +141,9 @@ struct euclid
 	euclid MCD(int a, int b)
 	{
 		euclid result;
-		
+
 		if(b == 0)
 		{
-
 			return result;
 		}
 		return MCD(b, a%b);
@@ -152,3 +156,75 @@ struct euclid
  * Costo: O(n^3)
  * input: 2 interi 
  * ------------------------------------------------------*/
+
+
+
+
+/*---------------------------------------------------------
+ * Insertion Sort
+ * Costo: O(n^2)
+ * input: Array A di n numeri interi
+ * Output: Array A ordinato
+ * ------------------------------------------------------*/
+
+void insertion_sort( int A[], int n)
+{
+	int key,j;
+	for (int i = 1; i < n; i++)
+       	{
+		key = A[i];
+		j = i-1;
+		while (j >= 0 && A[j] > key)
+	       	{
+			A[j+1] = A[j];
+			j--;
+		}
+		A[j+1] = key;
+
+
+	}
+}
+
+
+/*---------------------------------------------------------
+ * Merge Sort
+ * Costo: O(n log n)
+ * Input Array A di n numeri interi
+ * Output: Array A ordinato
+ * ------------------------------------------------------*/
+
+void merge_sort(int a[], int n)
+{
+    if (n > 1) {
+	int center = n / 2 ;
+	merge_sort(a, center) ;
+	merge_sort(&a[center], n - center) ;
+	merge(a, center, &a[center], n - center);
+    }
+}
+
+void merge(int a1[], int n1, int a2[], int n2)
+{
+    int i1, i2 , l ;
+    int *b ;
+    b = new int[n1+n2] ;
+
+    
+    for(i1 = 0, i2 = 0, l = 0; 
+	i1 < n1 && i2 < n2 ; 
+	l++) 
+	{
+		if (a1[i1] < a2[i2])
+	    	b[l] = a1[i1++] ;
+		else
+		    b[l] = a2[i2++] ;
+    }
+    for ( ; i1 < n1 ; i1++, l++ ) 
+		b[l] = a1[i1] ;
+    for ( ; i2 < n2 ; i2++, l++ ) 
+		b[l] = a2[i2] ;
+    for (i1 = 0 ; i1 < l ; i1++)
+		a1[i1] = b[i1] ;
+
+    delete[] b ;
+}
