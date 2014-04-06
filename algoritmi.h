@@ -12,7 +12,6 @@
 #ifndef IOSTREAM_H
 #define IOSTREAM_H
 #include <iostream>
-#endif
 
 //-----------------------DEFINIZIONI-----------------------
 int fibonacci1(unsigned int n);
@@ -238,3 +237,4 @@ void merge(int a1[], int n1, int a2[], int n2)
   delete[] b ;
 }
 
+#endif
