@@ -1,113 +1,148 @@
-#ifndef IOSTREAM_H
-#define IOSTREAM_H
-#include <iostream>
-#endif
 #include "algoritmi.h"
-#include <cstdlib>
-using namespace std;
+#include <iostream>
 
-const char menu[] =
-"1. Fibonacci ricorsivo\n"
-"2. Fibonacci polinomiale\n"
-"3. Moltiplicazione\n"
-"4. Divisione\n"
-"5. Euclid (MCD)\n"
-"6. Extended Euclid\n"
-"7. Instertion Sort\n"
-"8. Merge Sort\n";
 
-int main(int argc, const char *argv[])
+int fibonacci1(int n)
 {
-  int *a,x,y,n,temp,num_elem = 0;
-  Dresult result_D;
-  euclid result_MCD;
-  EE result_EE;
-  while(true)
-  {
-    cout<<menu<<endl;
-    unsigned int scelta;
-    cin>>scelta;
-    switch(scelta)
-    {
-      case 1:
-        cout<<"inserisci n ";
-        cin>>n;
-        temp = fibonacci1(n);
-        cout<<temp<<endl;
-        break;
-      case 2:
-        cout<<"inserisci n ";
-        cin>>n;
-        temp = fibonacci2(n);
-        cout<<temp<<endl;
-        break;
-      case 3:
-        do {
-          cout<<"inserisci x e y ";
-          cin>>x>>y;
-          if(y<0)
-            cerr<<"y deve essere maggiore di 0";
-        } while (y<0);
-        cout<< moltiplicazione(x,y)<<endl;
-        break;
-      case 4:
-        cout<<"inserisci x e y ";
-        cin>>x>>y;
-        result_D = result_D.divisione(x,y);
-        cout<<"il quoziente e' "<<result_D.q<<" e il resto e' "<<result_D.r<<endl;
-        break;
-      case 5:
-        do {
-          cout<<"inserisci a e b ";
-          cin>>x>>y;
-          if(x<y)
-            cout<<"a deve essere maggiore di b"<<endl;
-        } while (x<y && x < 0);
-        result_MCD = result_MCD.MCD(x,y);
-        cout<<result_MCD.a<<endl;
-        break;
-      case 6:
-        do {
-          cout<<"inserisci a e b ";
-          cin>>x>>y;
-          if (x<y) {
-            cout<<"a deve essere maggiore di b"<<endl;
-          }
-        } while (x<y && x < 0);
-        result_EE = result_EE.Extended_Euclid(x,y);
-        cout<<"x = "<<result_EE.x<<endl;
-        cout<<"y = "<<result_EE.y<<endl;
-        cout<<"d = "<<result_EE.d<<endl;
-        break;
-      case 7:
-        do {
-          cout<<"Lunghezza array? ";
-          cin>>num_elem;
-        } while (num_elem<= 0);
-        a = new int[num_elem];
-        srand(time(0));
-        for (int i = 0; i < num_elem; i++) {
-          a[i] = rand();
-        }
-        cout<<"array non ordinato: ";
-        for (int i = 0; i < num_elem; i++) {
-          cout<<i+1<<" / "<<num_elem<<" "<<a[i]<<endl;
-        }
-        cout<<"ordino..."<<endl;
-        insertion_sort(a,num_elem);
-        cout<<"Ordinato!"<<endl;
-        for (int i = 0; i < num_elem; i++) {
-          cout<<i+1<<" / "<<num_elem<<a[i]<<endl;
-        }
-        delete [] a;
-//        cout<<"premi qualsiasi tasto per continuare."<<endl;
-//        cin>>temp;
-        break;
-      default:
-        cerr<<"error\n"<<endl;
+  if(n == 0)
+    return 0;
+  else if(n == 1)
+    return 1;
+  return fibonacci1(n-1)+fibonacci1(n-2);
+}
 
-    }
+
+int fibonacci2( int n)
+{
+  if(n == 1)
+    return n;
+  int x = 0;
+  int y = 1;
+  int z = 0;
+  for (int i = 0; i < n; i++) {
+    z = x+y;
+    x = y;
+    y = z;
   }
-  return 0;
+  return z;
+}
 
+
+int moltiplicazione( int x, int y)
+{
+  if( y == 0)
+    return 0;
+  int z = moltiplicazione(x,y/2);
+  if((x%2) == 0)
+    return z*2;
+  else
+    return z*z+x;
+}
+
+
+
+void Divisione::fun(int x, int y)
+  {
+    if(x == 0)
+    {
+    this->q = this->r = 0;
+    return;
+    }
+
+    fun(x/2,y);
+    this->q = this->q*2;
+    this->r = this->r*2;
+    if(x%2 != 0)
+    {
+      this->r = this->r + 1;
+    }
+    if(this->r >= y)
+    {
+      this->q = this->q + 1;
+      this->r = this->r - y;
+    }
+    return;
+  }
+
+
+
+void Euclid::MCD(int a, int b)
+{
+  this->a = a;
+  this->b = b;
+  if(this->b == 0)
+  {
+    return;
+  }
+  MCD(this->b, this->a%this->b);
+}
+
+
+
+void EE::Extended_Euclid(int a, int b) {
+  int x_temp, y_temp = 0;
+  if(b == 0) {
+    this->x = 1;
+    this->y = 0;
+    this->d = a;
+  }
+  Extended_Euclid(b,a%b);
+  x_temp = this->x;
+  y_temp = this->y;
+  this->x = y_temp;
+  this->y = (x_temp - ((a/b)*y_temp));
+  return;
+}
+
+
+void insertion_sort( int A[], int n) {
+  int key,j;
+  for (int i = 1; i < n; i++)
+  {
+    key = A[i];
+    j = i-1;
+    while (j >= 0 && A[j] > key)
+    {
+      A[j+1] = A[j];
+      j--;
+    }
+    A[j+1] = key;
+  }
+}
+
+
+void merge(int a1[], int n1, int a2[], int n2)
+{
+  int i1, i2 , l ;
+  int *b ;
+  b = new int[n1+n2] ;
+
+  
+  for(i1 = 0, i2 = 0, l = 0; 
+      i1 < n1 && i2 < n2 ; 
+      l++) {
+    if (a1[i1] < a2[i2])
+      b[l] = a1[i1++] ;
+    else
+      b[l] = a2[i2++] ;
+  }
+  for ( ; i1 < n1 ; i1++, l++ ) 
+    b[l] = a1[i1] ;
+  for ( ; i2 < n2 ; i2++, l++ ) 
+    b[l] = a2[i2] ;
+  for (i1 = 0 ; i1 < l ; i1++)
+    a1[i1] = b[i1] ;
+
+  delete[] b ;
+}
+
+
+
+void merge_sort(int a[], int n) {
+  if (n > 1) {
+  int center = n / 2 ;
+  merge_sort(a, center) ;
+  merge_sort(&a[center], n - center) ;
+  merge(a, center, &a[center], n - center);
+  }
 }
