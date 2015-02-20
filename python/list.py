@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from random import shuffle
 class Node(object):
     """docstring for Node"""
     def __init__(self):
@@ -36,6 +37,7 @@ class DoubleLinkedList(object):
         node = self.head
         while node:
             nodes.append(node.data)
+            #print(node)
             node = node.next
         return nodes
 
@@ -57,4 +59,28 @@ class DoubleLinkedList(object):
             node = node.next
         return False
 
+    def quicksort(self,nums=None):
+        newList = DoubleLinkedList()
+        nums = self.printList()
 
+        result = self.sort(nums)
+        for n in result:
+            newList.add(n)
+        return newList
+
+    def sort(self,nums):
+        less = []
+        equal = []
+        greater = []
+        if(len(nums) > 1):
+            pivot = nums[0]
+            for n in nums:
+                if(n < pivot):
+                    less.append(n)
+                if( n is pivot):
+                    equal.append(n)
+                if(n > pivot):
+                    greater.append(n)
+            return(self.sort(less)+equal+self.sort(greater))
+        else:
+            return nums
