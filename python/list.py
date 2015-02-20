@@ -38,3 +38,20 @@ class DoubleLinkedList(object):
             nodes.append(node.data)
             node = node.next
         return nodes
+
+    def deleteNode(self,data):
+        node = self.head
+        while node:
+            if(node.data is data):
+                tmp = node
+                if(node is self.head):
+                    node.next.back = None
+                    self.head = node
+                elif(node is self.currentNode):
+                    node.back.next = None
+                else:
+                    node.back.next = node.next
+                    tmp.next.back = node.back
+                return True
+            node = node.next
+        return False
