@@ -5,12 +5,13 @@ class Node(object):
     def __init__(self):
         data = None
         next = None
+        back = None
 
     def __str__(self):
         return str(self.data)
 
-class LinkedList(object):
-    """docstring for LinkedList"""
+class DoubleLinkedList(object):
+    """docstring for DoubleLinkedList"""
     def __init__(self):
         self.currentNode = None
         self.head = None
@@ -23,6 +24,7 @@ class LinkedList(object):
             self.head = tmp
             self.currentNode = tmp
         else:
+            tmp.back = self.currentNode
             self.currentNode.next = tmp
             self.currentNode = tmp
 
@@ -30,16 +32,9 @@ class LinkedList(object):
         return str(self.currentNode.data)
 
     def printList(self):
+        nodes = []
         node = self.head
         while node:
-            print(node)
+            nodes.append(node.data)
             node = node.next
-
-
-
-if __name__ == "__main__":
-    x = LinkedList()
-    x.add(2)
-    x.add(3)
-    x.printList()
-
+        return nodes
