@@ -58,10 +58,3 @@ class DoubleLinkedList(object):
         return False
 
 
-if __name__ == '__main__':
-    x = DoubleLinkedList()
-    x.add(2)
-    x.add(3)
-    x.add(4)
-    x.deleteNode(2)
-    print(x.head)

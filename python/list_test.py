@@ -29,6 +29,8 @@ class TestList(unittest.TestCase):
     def test_deleteTail(self):
         self.assertTrue(self.list.deleteNode(4))
         self.assertEqual(self.list.currentNode.data,3)
+    def test_deleteNotFound(self):
+        self.assertFalse(self.list.deleteNode(19))
 
 
 if __name__ == '__main__':
