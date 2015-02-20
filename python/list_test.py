@@ -22,10 +22,13 @@ class TestList(unittest.TestCase):
         self.assertEqual(self.list.currentNode.back.data,3)
     def test_deleteHead(self):
         self.assertTrue(self.list.deleteNode(2))
+        self.assertEqual(self.list.head.data,3)
     def test_delete(self):
         self.assertTrue(self.list.deleteNode(3))
+        self.assertEqual(self.list.currentNode.back.data,2)
     def test_deleteTail(self):
         self.assertTrue(self.list.deleteNode(4))
+        self.assertEqual(self.list.currentNode.data,3)
 
 
 if __name__ == '__main__':

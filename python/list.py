@@ -24,8 +24,8 @@ class DoubleLinkedList(object):
             self.head = tmp
             self.currentNode = tmp
         else:
-            tmp.back = self.currentNode
             self.currentNode.next = tmp
+            tmp.back = self.currentNode
             self.currentNode = tmp
 
     def __str__(self):
@@ -46,12 +46,22 @@ class DoubleLinkedList(object):
                 tmp = node
                 if(node is self.head):
                     node.next.back = None
-                    self.head = node
+                    self.head = node.next
                 elif(node is self.currentNode):
                     node.back.next = None
+                    self.currentNode = node.back
                 else:
                     node.back.next = node.next
                     tmp.next.back = node.back
                 return True
             node = node.next
         return False
+
+
+if __name__ == '__main__':
+    x = DoubleLinkedList()
+    x.add(2)
+    x.add(3)
+    x.add(4)
+    x.deleteNode(2)
+    print(x.head)
